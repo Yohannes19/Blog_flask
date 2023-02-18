@@ -1,10 +1,14 @@
 from flask import Flask
 from config import Config
+from app.extensions import db
+
 
 def create_app(config_class=Config):
     app=Flask(__name__)
     app.config.from_object(config_class)
-    #intialize the flask extensions 
+    
+    #intialize the flask extensions /before registering the blueprints to the application we have to intialize the database
+    db.init_app(app)
     
     #register blueprints here
     from app.main import bp as main_bp

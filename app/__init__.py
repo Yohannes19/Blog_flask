@@ -1,6 +1,8 @@
 from flask import Flask
 from config import Config
 from app.extensions import db
+from app.models.posts import Post
+from app.models.questions import Question
 
 
 def create_app(config_class=Config):
@@ -18,10 +20,11 @@ def create_app(config_class=Config):
     from app.questions import bp as questions_bp
     app.register_blueprint(questions_bp,url_prefix='/questions')
     
-    
+    #db.create_all()
     @app.route('/test/')
     def test_page():
         return 'Testing the app'
-    
+    with app.app_context():
+       db.create_all()
     return app
     
